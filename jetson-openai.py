@@ -40,25 +40,25 @@ def get_command_from_gpt(prompt_text):
     )
     return response.choices[0].text.strip()
 
-# Command loop
-while True:
-    # Get command from GPT
-    prompt_text = "Command the robot with one of the following actions: forward, backward, left, right, stop, exit."
-    command = get_command_from_gpt(prompt_text).lower()
+def execute_complex_command(user_wish):
+    # Provide GPT with the user's wish and the basic commands
+    prompt_text = f"The user wants the robot to '{user_wish}'. Translate this wish into one of the following basic actions: forward, backward, left, right, stop."
+    command_sequence = get_command_from_gpt(prompt_text).split(', ')  # Assuming GPT returns a comma-separated list of commands
     
-    if command == "forward":
-        step_forward()
-    elif command == "backward":
-        step_backward()
-    elif command == "left":
-        step_left()
-    elif command == "right":
-        step_right()
-    elif command == "stop":
-        stop()
-    elif command == "exit":
-        break
-    else:
-        print("Invalid command!")
+    for command in command_sequence:
+        if command == "forward":
+            step_forward()
+        elif command == "backward":
+            step_backward()
+        elif command == "left":
+            step_left()
+        elif command == "right":
+            step_right()
+        elif command == "stop":
+            stop()
+        else:
+            print(f"Invalid command: {command}")
 
-print("Exiting program.")
+# Example usage
+user_wish = "go in circles"
+execute_complex_command(user_wish)
